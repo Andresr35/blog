@@ -7,6 +7,7 @@ const passport = require("passport");
 const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const User = require("./models/users");
 
 require("dotenv").config();
@@ -62,6 +63,7 @@ app.set("view engine", "pug");
 //   }
 // });
 
+// app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // app.use(passport.initialize());
@@ -89,6 +91,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500).json({
+    err,
     message: err.message,
     stack: err.stack,
   });

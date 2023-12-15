@@ -6,7 +6,7 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   /* background: green; */
-  background-image: url("../public/greenGrain.svg");
+  background-image: url("../greenGrain.svg");
   background-size: cover;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
