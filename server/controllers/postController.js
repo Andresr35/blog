@@ -66,3 +66,36 @@ exports.deletePost = [
     }
   }),
 ];
+
+exports.createComment = asyncHandler(async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.id).exec();
+    post.comments.push({ message: req.body.message });
+    await Post.findByIdAndUpdate(req.params.id, post, {});
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json({
+      message: "Could not find post",
+    });
+  }
+});
+
+exports.deleteComment = [
+  authenticateToken,
+  asyncHandler(async (req, res, next) => {
+    try {
+      let post = await Post.findById(req.params.id).exec();
+      post.comments = post.comments.filter(
+        (obj) => obj._id != req.params.commentID
+      );
+      await Post.findByIdAndUpdate(req.params.id, post, {});
+      res.status(200).json({
+        post,
+      });
+    } catch (error) {
+      res.status(400).json({
+        message: "There was an error",
+      });
+    }
+  }),
+];
