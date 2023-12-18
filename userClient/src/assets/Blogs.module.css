@@ -1,0 +1,27 @@
+.blogsContainer {
+  padding: 5px;
+  background-color: rgba(200, 230, 188, 0.363);
+  backdrop-filter: blur(1px);
+  border-radius: 20px;
+}
+.blogContainer {
+  background-color: rgba(200, 230, 188, 0.363);
+  margin: 20px 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.blogContainer h4,
+p {
+  margin: 0;
+}
+.commentsContainer {
+  /* background-color: black; */
+}
+.commentContainer {
+  padding: 5px;
+  border-radius: 10px;
+  background-color: hsl(103deg 20.22% 62.68%);
+}
+.timestamp {
+  text-align: right;
+}

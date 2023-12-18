@@ -63,7 +63,7 @@ app.set("view engine", "pug");
 //   }
 // });
 
-// app.use(cors());
+app.use(cors(process.env.WEB));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // app.use(passport.initialize());

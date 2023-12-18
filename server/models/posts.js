@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { DateTime } = require("luxon");
 
 const PostSchema = new Schema({
   timestamp: {
@@ -24,7 +25,9 @@ const PostSchema = new Schema({
       date: {
         type: Date,
         required: true,
-        default: Date.now,
+        default: DateTime.fromJSDate(Date.now).toLocaleString(
+          DateTime.DATE_SHORT
+        ),
       },
     },
   ],
@@ -33,5 +36,14 @@ const PostSchema = new Schema({
 PostSchema.virtual("url").get(function () {
   return `/post/${this._id}`;
 });
+
+PostSchema.virtual("date").get(function () {
+  return DateTime.fromJSDate(this.timestamp).toLocaleString(
+    DateTime.DATE_SHORT
+  );
+});
+
+PostSchema.set("toObject", { virtuals: true });
+PostSchema.set("toJSON", { virtuals: true });
 
 module.exports = mongoose.model("Post", PostSchema);
