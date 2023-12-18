@@ -25,9 +25,7 @@ const PostSchema = new Schema({
       date: {
         type: Date,
         required: true,
-        default: DateTime.fromJSDate(Date.now).toLocaleString(
-          DateTime.DATE_SHORT
-        ),
+        default: Date.now(),
       },
     },
   ],

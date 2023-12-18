@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
+import PropTypes from "prop-types";
 
-const Login = () => {
+const Login = ({ authenticated, setAuthenticated }) => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const [loginError, setLoginError] = useState("");
@@ -21,40 +22,50 @@ const Login = () => {
       if (result.message == "Auth Passed") {
         localStorage.setItem("token", result.token);
         setLoginError(result.message);
+        setAuthenticated(true);
       } else {
         setLoginError(result.message);
+        setAuthenticated(false);
       }
     } catch (error) {
       console.log(error);
+      setAuthenticated(false);
     }
   };
 
   return (
     <div>
-      <form onSubmit={logIn}>
-        {loginError && <p>{loginError}</p>}
-        <label>
-          Username{" "}
-          <input
-            ref={usernameRef}
-            type="text"
-            name="username"
-            placeholder="Username"
-          />
-        </label>
-        <label>
-          Password
-          <input
-            ref={passwordRef}
-            type="password"
-            name="password"
-            placeholder="Enter Password"
-          />
-        </label>
-        <button type="submit">Log In</button>
-      </form>
+      {loginError && <p>{loginError}</p>}
+      {!authenticated && (
+        <form onSubmit={logIn}>
+          <label>
+            Username{" "}
+            <input
+              ref={usernameRef}
+              type="text"
+              name="username"
+              placeholder="Username"
+            />
+          </label>
+          <label>
+            Password
+            <input
+              ref={passwordRef}
+              type="password"
+              name="password"
+              placeholder="Enter Password"
+            />
+          </label>
+          <button type="submit">Log In</button>
+        </form>
+      )}
     </div>
   );
+};
+
+Login.propTypes = {
+  authenticated: PropTypes.bool.isRequired,
+  setAuthenticated: PropTypes.func.isRequired,
 };
 
 export default Login;

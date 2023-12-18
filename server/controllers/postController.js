@@ -75,6 +75,7 @@ exports.createComment = asyncHandler(async (req, res, next) => {
     res.status(200).json(post);
   } catch (error) {
     res.status(400).json({
+      error,
       message: "Could not find post",
     });
   }
