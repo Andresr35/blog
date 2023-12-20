@@ -3,25 +3,59 @@
   background-color: rgba(200, 230, 188, 0.363);
   backdrop-filter: blur(1px);
   border-radius: 20px;
+  overflow-y: scroll;
+  height: 100%;
+  box-sizing: border-box;
 }
 .blogContainer {
   background-color: rgba(200, 230, 188, 0.363);
   margin: 20px 10px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 20px;
+  border-bottom-left-radius: 0;
+  text-align: left;
 }
 .blogContainer h4,
 p {
   margin: 0;
 }
+.blogContainer h4 {
+  text-align: left;
+}
 .commentsContainer {
-  /* background-color: black; */
+  margin-right: 0;
+  margin-left: auto;
+  width: 60%;
 }
 .commentContainer {
-  padding: 5px;
-  border-radius: 10px;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 20px;
+  border-bottom-right-radius: 0;
   background-color: hsl(103deg 20.22% 62.68%);
+}
+.addComment {
+  text-align: right;
 }
 .timestamp {
   text-align: right;
+}
+.delete {
+  width: 40px;
+  height: auto;
+  margin-right: auto;
+  margin-left: 0;
+  display: block;
+}
+.add {
+  width: 40px;
+  height: auto;
+}
+.add img {
+  width: 100%;
+  height: auto;
+}
+.delete img {
+  width: 100%;
+  height: auto;
 }

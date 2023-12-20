@@ -1,6 +1,8 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
+import styles from "../assets/CreateBlog.module.css";
 
-const CreateBlog = () => {
+const CreateBlog = ({ setAuthenticated }) => {
   const [input, setInput] = useState({
     title: "",
     message: "",
@@ -20,17 +22,23 @@ const CreateBlog = () => {
           message: input.message,
         }),
       });
-      const response = await res.json();
-      console.log(response);
+      if (res.ok) {
+        const response = await res.json();
+        console.log(response);
+        setAuthenticated(true);
+      } else {
+        console.log(res);
+        setAuthenticated(false);
+      }
     } catch (err) {
       console.log(err);
+      setAuthenticated(false);
     }
   };
   return (
     <div>
-      <form onSubmit={postBlog}>
-        <label>
-          Title
+      <form className={styles.container} onSubmit={postBlog}>
+        <label className={styles.title}>
           <input
             type="text"
             name="title"
@@ -41,9 +49,8 @@ const CreateBlog = () => {
             onChange={(e) => setInput({ ...input, title: e.target.value })}
           />
         </label>
-        <label>
-          Message
-          <input
+        <label className={styles.message}>
+          <textarea
             type="text"
             name="message"
             id="message"
@@ -53,10 +60,14 @@ const CreateBlog = () => {
             placeholder="Enter Message"
           />
         </label>
-        <button type="Submit">Submit</button>
+        <button type="Submit">Add Post</button>
       </form>
     </div>
   );
+};
+
+CreateBlog.propTypes = {
+  setAuthenticated: PropTypes.func.isRequired,
 };
 
 export default CreateBlog;

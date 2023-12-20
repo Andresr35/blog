@@ -3,4 +3,7 @@
   background-color: rgba(200, 230, 188, 0.363);
   backdrop-filter: blur(1px);
   border-radius: 20px;
+  margin: 20px;
+  grid-row-start: 1;
+  grid-row-end: 3;
 }

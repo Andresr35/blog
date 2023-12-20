@@ -1,0 +1,22 @@
+.title {
+  width: 7em;
+}
+.container {
+  display: flex;
+  gap: 10px;
+}
+.message {
+  width: 100%;
+  text-align: center;
+}
+.title input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.message textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+.container button {
+  height: 3em;
+}

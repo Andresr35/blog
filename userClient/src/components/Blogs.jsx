@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "../assets/Blogs.module.css";
 import PropTypes from "prop-types";
+import CreateBlog from "./CreateBlog";
 
 const Blogs = ({ authenticated, setAuthenticated }) => {
   const [blogs, setBlogs] = useState([]);
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch("http://localhost:3000/api/post", {
       headers: {
         accepts: "application/json",
@@ -16,6 +17,10 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   // TODO : add in something to give different results on whether someone is authenticated or not
@@ -32,6 +37,7 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
         const result = await res.json();
         console.log(result);
         setAuthenticated(true);
+        fetchData();
       } else {
         setAuthenticated(false);
         console.log(res);
@@ -57,6 +63,7 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
         const result = await res.json();
         console.log(result);
         setAuthenticated(true);
+        fetchData();
       } else {
         setAuthenticated(false);
         console.log(res);
@@ -81,7 +88,8 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
       if (res.ok) {
         const result = await res.json();
         console.log(result);
-        setAuthenticated(true);
+        setAuthenticated(false);
+        fetchData();
       } else {
         setAuthenticated(false);
         console.log(res);
@@ -89,52 +97,74 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
     } catch (error) {
       console.log(error);
     }
+    e.target.reset();
   };
 
   return (
-    <div>
-      <h3>Current Posts</h3>
+    <>
+      {authenticated && <CreateBlog setAuthenticated={setAuthenticated} />}
+
       <div className={styles.blogsContainer}>
+        <h3>Current Posts</h3>
         {blogs.length == 0
           ? ""
           : blogs.map((blog, index) => (
               <div key={index} className={styles.blogContainer}>
                 <h4>{blog.title}</h4>
+                <hr />
                 <p>{blog.message}</p>
                 <p className={styles.timestamp}>Created: {blog.date}</p>
-                {authenticated && (
-                  <button onClick={(e) => deletePost(e, blog._id)}>
-                    Delete Post
-                  </button>
-                )}
                 <div className={styles.commentsContainer}>
                   {blog.comments.map((comment, index) => (
                     <div key={index} className={styles.commentContainer}>
                       <p>{comment.message}</p>
                       {authenticated && (
                         <button
+                          className={styles.delete}
                           onClick={(e) =>
                             deleteComment(e, comment._id, blog._id)
                           }
                         >
-                          Delete Comment
+                          <img
+                            src="../../delete-svgrepo-com.svg"
+                            alt="Delete Button"
+                          />
                         </button>
                       )}
                     </div>
                   ))}
-                  <form onSubmit={(e) => addComment(e, blog._id)}>
+                  <form
+                    className={styles.addComment}
+                    onSubmit={(e) => addComment(e, blog._id)}
+                  >
                     <input
                       type="text"
                       name="comment"
                       placeholder="Add Comment"
                     />
-                    <button type="submit">add comment</button>
+                    <button className={styles.add} type="submit">
+                      <img
+                        src="../../checkmark-svgrepo-com.svg"
+                        alt="Delete Button"
+                      />
+                    </button>
                   </form>
                 </div>
+                {authenticated && (
+                  <button
+                    className={styles.delete}
+                    onClick={(e) => deletePost(e, blog._id)}
+                  >
+                    <img
+                      src="../../delete-svgrepo-com.svg"
+                      alt="Delete Button"
+                    />
+                  </button>
+                )}
               </div>
             ))}
       </div>
-    </div>
+    </>
   );
 };
 
