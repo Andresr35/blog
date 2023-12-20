@@ -3,11 +3,11 @@ import styles from "../assets/Blogs.module.css";
 import PropTypes from "prop-types";
 import CreateBlog from "./CreateBlog";
 
-const Blogs = ({ authenticated, setAuthenticated }) => {
+const Blogs = ({ authenticated, setAuthenticated, url }) => {
   const [blogs, setBlogs] = useState([]);
 
   const fetchData = () => {
-    fetch("http://localhost:3000/api/post", {
+    fetch(`${url}/api/post`, {
       headers: {
         accepts: "application/json",
       },
@@ -27,7 +27,7 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
   const deletePost = async (e, id) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:3000/api/post/${id}`, {
+      const res = await fetch(`${url}/api/post/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,7 +51,7 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
     e.preventDefault();
     try {
       const res = await fetch(
-        `http://localhost:3000/api/post/${blogID}/comment/${commentID}`,
+        `${url}/api/post/${blogID}/comment/${commentID}`,
         {
           method: "DELETE",
           headers: {
@@ -76,7 +76,7 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
   const addComment = async (e, id) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:3000/api/post/${id}/comment`, {
+      const res = await fetch(`${url}/api/post/${id}/comment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,7 +102,9 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
 
   return (
     <>
-      {authenticated && <CreateBlog setAuthenticated={setAuthenticated} />}
+      {authenticated && (
+        <CreateBlog setAuthenticated={setAuthenticated} url={url} />
+      )}
 
       <div className={styles.blogsContainer}>
         <h3>Current Posts</h3>
@@ -171,6 +173,7 @@ const Blogs = ({ authenticated, setAuthenticated }) => {
 Blogs.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   setAuthenticated: PropTypes.func.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default Blogs;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "../assets/CreateBlog.module.css";
 
-const CreateBlog = ({ setAuthenticated }) => {
+const CreateBlog = ({ setAuthenticated, url }) => {
   const [input, setInput] = useState({
     title: "",
     message: "",
@@ -11,7 +11,7 @@ const CreateBlog = ({ setAuthenticated }) => {
   const postBlog = async (e) => {
     try {
       e.preventDefault();
-      const res = await fetch("http://localhost:3000/api/post", {
+      const res = await fetch(`${url}/api/post`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,6 +68,7 @@ const CreateBlog = ({ setAuthenticated }) => {
 
 CreateBlog.propTypes = {
   setAuthenticated: PropTypes.func.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default CreateBlog;

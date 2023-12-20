@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-const Login = ({ authenticated, setAuthenticated }) => {
+const Login = ({ authenticated, setAuthenticated, url }) => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const [loginError, setLoginError] = useState("");
   const logIn = async (e) => {
     try {
       e.preventDefault();
-      const res = await fetch("http://localhost:3000/api/user/login", {
+      const res = await fetch(`${url}/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,6 +66,7 @@ const Login = ({ authenticated, setAuthenticated }) => {
 Login.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   setAuthenticated: PropTypes.func.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default Login;
